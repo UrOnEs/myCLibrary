@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -14,10 +18,9 @@ public class SaveMenu extends JFrame implements ActionListener{
 	JMenuBar menubar;
 	JMenu options;
 	JMenuItem save;
-	JMenuItem edit;
 	JMenuItem cancel;
 
-	SaveMenu(int number){
+	SaveMenu(){
 	//------------------Menü Barı--------------------------
 		menubar = new JMenuBar();
 		
@@ -26,17 +29,10 @@ public class SaveMenu extends JFrame implements ActionListener{
 		save = new JMenuItem("Save");
 		save.addActionListener(this);
 		
-		edit = new JMenuItem("Edit");
-		edit.addActionListener(this);
-		
 		cancel = new JMenuItem("Cancel");
 		cancel.addActionListener(this);
 		
-		if(number == 1) {
-			options.add(save);
-		}else {
-			options.add(edit);
-		}
+		options.add(save);
 		options.add(cancel);
 		
 		menubar.add(options);
@@ -48,13 +44,14 @@ public class SaveMenu extends JFrame implements ActionListener{
 	//-------------------------------------------------------
 	//-----------------------Ana Ekran------------------------
 		frame = new JFrame();
+		this.setTitle("Save Menu");
 		this.setSize(600,800);
 		this.setLayout(new BorderLayout());
 		this.add(textArea,BorderLayout.CENTER);
 		this.setJMenuBar(menubar);
 		
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
@@ -69,6 +66,24 @@ public class SaveMenu extends JFrame implements ActionListener{
 		if(e.getSource() == cancel) {
 			this.dispose();
 			new myLibrary();
+		}
+		if(e.getSource() == save) {
+			String response = JOptionPane.showInputDialog(null,"What is the name of Project?","Name Please!",JOptionPane.OK_CANCEL_OPTION);
+			File temp = new File("CodesArchive//" + response + ".txt");
+			try {
+				if(temp.createNewFile()) {
+					BufferedWriter bfr = new BufferedWriter(new FileWriter(temp));
+					bfr.write(textArea.getText());
+					bfr.close();
+				}else {
+					JOptionPane.showMessageDialog(null,"This name is already exist!","Error!",JOptionPane.WARNING_MESSAGE);
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null,"Save Succesfull"," ",JOptionPane.INFORMATION_MESSAGE);
+			this.dispose();
 		}
 		
 	}
