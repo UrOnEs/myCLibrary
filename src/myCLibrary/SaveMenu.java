@@ -1,7 +1,8 @@
 package myCLibrary;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -38,8 +39,15 @@ public class SaveMenu extends JFrame implements ActionListener{
 		menubar.add(options);
 	//------------------------------------------------------
 	//--------------------Yazı Bölümü-----------------------
-		textArea = new JTextArea();
-		textArea.setPreferredSize(new Dimension(800,700));
+		textArea = new JTextArea(24,57);
+		textArea.setBackground(Color.black);
+		textArea.setForeground(Color.orange);
+		textArea.setOpaque(true);
+		textArea.setFont(new Font("MV Boli",Font.PLAIN,25));
+		
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 	//-------------------------------------------------------
 	//-----------------------Ana Ekran------------------------
@@ -47,12 +55,11 @@ public class SaveMenu extends JFrame implements ActionListener{
 		this.setTitle("Save Menu");
 		this.setSize(600,800);
 		this.setLayout(new BorderLayout());
-		this.add(textArea,BorderLayout.CENTER);
+		this.add(scrollPane,BorderLayout.CENTER);
 		this.setJMenuBar(menubar);
 		
 		
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
 		this.pack();
@@ -65,11 +72,11 @@ public class SaveMenu extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == cancel) {
 			this.dispose();
-			new myLibrary();
 		}
 		if(e.getSource() == save) {
 			String response = JOptionPane.showInputDialog(null,"What is the name of Project?","Name Please!",JOptionPane.OK_CANCEL_OPTION);
-			File temp = new File("CodesArchive//" + response + ".txt");
+			if(!response.equalsIgnoreCase(null)) {
+				File temp = new File("CodesArchive//" + response + ".txt");
 			try {
 				if(temp.createNewFile()) {
 					BufferedWriter bfr = new BufferedWriter(new FileWriter(temp));
@@ -84,6 +91,10 @@ public class SaveMenu extends JFrame implements ActionListener{
 			}
 			JOptionPane.showMessageDialog(null,"Save Succesfull"," ",JOptionPane.INFORMATION_MESSAGE);
 			this.dispose();
+			}else {
+				this.dispose();
+			}
+			
 		}
 		
 	}

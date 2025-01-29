@@ -62,9 +62,16 @@ public class ShowCaseMenu extends JFrame implements ActionListener{
 				menubar.add(status);
 			//------------------------------------------------------
 			//--------------------Yazı Bölümü-----------------------
-				textArea = new JTextArea();
-				textArea.setPreferredSize(new Dimension(800,700));
-				textArea.setEditable(false);
+				textArea = new JTextArea(24,57);
+				textArea.setBackground(Color.black);
+				textArea.setForeground(Color.white);
+				textArea.setOpaque(true);
+				textArea.setFont(new Font("MV Boli",Font.PLAIN,25));
+				
+				JScrollPane scrollPane = new JScrollPane(textArea);
+				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				
 				BufferedReader br = new BufferedReader(new FileReader(f.getAbsolutePath()));
 				String line;
 	            try {
@@ -83,12 +90,11 @@ public class ShowCaseMenu extends JFrame implements ActionListener{
 				this.setTitle("Show Case Menu");
 				this.setSize(600,800);
 				this.setLayout(new BorderLayout());
-				this.add(textArea,BorderLayout.CENTER);
+				this.add(scrollPane,BorderLayout.CENTER);
 				this.setJMenuBar(menubar);
 				
 				
 				this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				this.setResizable(false);
 				this.setLocationRelativeTo(null);
 				
 				this.pack();

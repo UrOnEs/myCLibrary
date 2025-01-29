@@ -17,6 +17,7 @@ public class Codes extends JLabel implements MouseListener{
 		file = f;
 		label = new JLabel();
 		this.setPreferredSize(new Dimension(120,80));
+		this.setBackground(Color.blue);
 		this.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		this.setText(f.getName());
 		this.addMouseListener(this);
